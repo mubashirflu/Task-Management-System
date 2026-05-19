@@ -20,7 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+// import { computed, onMounted } from 'vue'
+import {  onMounted } from 'vue'
 import { useTaskStore } from '@/stores/taskStore'
 
 const store = useTaskStore()
