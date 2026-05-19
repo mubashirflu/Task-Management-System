@@ -1,0 +1,197 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Update Task",
+      "description": "Frontend framework learning for career growth",
+      "status": "in-progress",
+      "category": "development",
+      "assignee": "Muhammad Mubashir",
+      "country": "Pakistan",
+      "age": 22,
+      "createdAt": "2026-05-01T10:00:00.000Z",
+      "updatedAt": "2026-05-10T10:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "title": "Apply for Jobs in Germany",
+      "description": "Searching warehouse and IT-related jobs",
+      "status": "pending",
+      "category": "career",
+      "assignee": "Muhammad Mubashir",
+      "country": "Pakistan",
+      "age": null,
+      "createdAt": "2026-05-15T10:00:00.000Z",
+      "updatedAt": "2026-05-15T10:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "title": "Learn TypeScript Generics",
+      "description": "Deep dive into TypeScript advanced types",
+      "status": "completed",
+      "category": "learning",
+      "assignee": "Muhammad Mubashir",
+      "country": "Pakistan",
+      "age": 22,
+      "createdAt": "2026-04-10T10:00:00.000Z",
+      "updatedAt": "2026-04-25T10:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "title": "Build REST API with Node.js",
+      "description": "Create a full REST API with Express and MongoDB",
+      "status": "completed",
+      "category": "development",
+      "assignee": "Muhammad Mubashir",
+      "country": "Pakistan",
+      "age": 22,
+      "createdAt": "2026-03-20T10:00:00.000Z",
+      "updatedAt": "2026-04-01T10:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "title": "Portfolio Website",
+      "description": "Personal portfolio to showcase projects",
+      "status": "in-progress",
+      "category": "career",
+      "assignee": "Muhammad Mubashir",
+      "country": "Pakistan",
+      "age": 22,
+      "createdAt": "2026-05-12T10:00:00.000Z",
+      "updatedAt": "2026-05-18T10:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "title": "Study German Language",
+      "description": "A2 level German language preparation",
+      "status": "in-progress",
+      "category": "learning",
+      "assignee": "Muhammad Mubashir",
+      "country": "Pakistan",
+      "age": 22,
+      "createdAt": "2026-05-01T10:00:00.000Z",
+      "updatedAt": "2026-05-19T10:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "title": "Complete Vue 3 Course",
+      "description": "Finish Udemy Vue 3 Composition API course",
+      "status": "completed",
+      "category": "learning",
+      "assignee": "Muhammad Mubashir",
+      "country": "Pakistan",
+      "age": 22,
+      "createdAt": "2026-03-01T10:00:00.000Z",
+      "updatedAt": "2026-03-30T10:00:00.000Z"
+    },
+    {
+      "id": 9,
+      "title": "Setup Linux Environment",
+      "description": "Configure development environment on Ubuntu",
+      "status": "in-progress",
+      "category": "devops",
+      "assignee": "Muhammad Mubashir",
+      "country": "Pakistan",
+      "age": 22,
+      "createdAt": "2026-05-18T10:00:00.000Z",
+      "updatedAt": "2026-05-19T10:00:00.000Z"
+    },
+    {
+      "id": 10,
+      "title": "Prepare CV for Germany",
+      "description": "Create Europass format CV for German employers",
+      "status": "pending",
+      "category": "career",
+      "assignee": "Muhammad Mubashir",
+      "country": "Pakistan",
+      "age": 22,
+      "createdAt": "2026-05-17T10:00:00.000Z",
+      "updatedAt": "2026-05-17T10:00:00.000Z"
+    },
+    {
+      "id": 11,
+      "title": "Read Clean Code Book",
+      "description": "Read and summarize Clean Code by Robert C. Martin",
+      "status": "pending",
+      "category": "learning",
+      "assignee": "Muhammad Mubashir",
+      "country": "Pakistan",
+      "age": 22,
+      "createdAt": "2026-05-16T10:00:00.000Z",
+      "updatedAt": "2026-05-16T10:00:00.000Z"
+    },
+    {
+      "id": 12,
+      "title": "Deploy App to Vercel",
+      "description": "Deploy portfolio and todo app to production",
+      "status": "completed",
+      "category": "devops",
+      "assignee": "Muhammad Mubashir",
+      "country": "Pakistan",
+      "age": 22,
+      "createdAt": "2026-04-28T10:00:00.000Z",
+      "updatedAt": "2026-05-02T10:00:00.000Z"
+    },
+    {
+      "title": "Find Job",
+      "description": "i will have to find the job evey day from 5 to 10 for professional job",
+      "status": "in-progress",
+      "category": "learning",
+      "assignee": "Muhammad Mubashir",
+      "country": "germany",
+      "age": 22,
+      "createdAt": "2026-05-19T19:00:01.373Z",
+      "updatedAt": "2026-05-19T19:00:01.373Z",
+      "id": 13
+    },
+    {
+      "title": "flutter",
+      "description": "in progress",
+      "status": "pending",
+      "category": "development",
+      "assignee": "Muhammad Mubashir",
+      "country": "Pakistan",
+      "age": null,
+      "createdAt": "2026-05-19T19:02:33.786Z",
+      "updatedAt": "2026-05-19T19:02:33.786Z",
+      "id": 14
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Muhammad Mubashir",
+      "email": "mubashir@example.com",
+      "avatar": "M",
+      "country": "Pakistan",
+      "age": 22,
+      "role": "Developer"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Development",
+      "slug": "development",
+      "color": "#6c63ff"
+    },
+    {
+      "id": 2,
+      "name": "Career",
+      "slug": "career",
+      "color": "#f59e0b"
+    },
+    {
+      "id": 3,
+      "name": "Learning",
+      "slug": "learning",
+      "color": "#10b981"
+    },
+    {
+      "id": 4,
+      "name": "DevOps",
+      "slug": "devops",
+      "color": "#3b82f6"
+    }
+  ]
+}
