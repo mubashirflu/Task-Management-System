@@ -2,7 +2,8 @@ export type TaskStatus = 'completed' | 'in-progress' | 'pending'
 export type TaskCategory = 'development' | 'career' | 'learning' | 'devops'
 
 export interface Task {
-  id: number
+  // id: number
+  id:string,
   title: string
   description: string
   status: TaskStatus
@@ -25,7 +26,8 @@ export interface TaskCreatePayload {
 }
 
 export interface User {
-  id: number
+  // id: number
+  id:string,
   name: string
   email: string
   avatar: string
@@ -35,7 +37,8 @@ export interface User {
 }
 
 export interface Category {
-  id: number
+  // id: number
+  id:string,
   name: string
   slug: string
   color: string
