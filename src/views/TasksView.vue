@@ -93,13 +93,15 @@ const filterOptions = computed(() => [
 const modalOpen = ref(false)
 const editingTask = ref<Task | null>(null)
 const confirmOpen = ref(false)
-const deletingId = ref<number | null>(null)
+// const deletingId = ref<number | null>(null)
+const deletingId = ref<string | null>(null)
 
 function openModal(task: Task | null) {
   editingTask.value = task
   modalOpen.value = true
 }
-function openConfirm(id: number) {
+// function openConfirm(id: number) {
+function openConfirm(id: string) {
   deletingId.value = id
   confirmOpen.value = true
 }

@@ -4,28 +4,28 @@
     <div class="stats-grid">
       <StatsCard
         label="Total Tasks"
-        :value="stats.total"
+        :value="store.stats.total"
         sub="All tasks available"
         :icon="icons.total"
         icon-bg="#ede9fe"
       />
       <StatsCard
         label="Completed"
-        :value="stats.completed"
+        :value="store.stats.completed"
         sub="Tasks completed"
         :icon="icons.completed"
         icon-bg="#dcfce7"
       />
       <StatsCard
         label="In Progress"
-        :value="stats.inProgress"
+        :value="store.stats.inProgress"
         sub="Tasks in progress"
         :icon="icons.inProgress"
         icon-bg="#fef9c3"
       />
       <StatsCard
         label="Pending"
-        :value="stats.pending"
+        :value="store.stats.pending"
         sub="Tasks pending"
         :icon="icons.pending"
         icon-bg="#fee2e2"
@@ -139,23 +139,23 @@ import AppPagination from '@/components/ui/AppPagination.vue'
 import type { Task, TaskCreatePayload } from '@/types'
 
 const store = useTaskStore()
-const stats = store.stats
+// ✅ FIX: store.stats directly use karo — reactive rahega
+// ❌ OLD: const stats = store.stats  <-- yeh reactivity tod deta tha
 
-// Fetch on mount
 onMounted(() => store.fetchTasks())
 
 // ── Modal state ──────────────────────────────────────────────────────────
 const modalOpen   = ref(false)
 const editingTask = ref<Task | null>(null)
 const confirmOpen = ref(false)
-const deletingId  = ref<number | null>(null)
+const deletingId  = ref<string | null>(null)
 
 function openModal(task: Task | null) {
   editingTask.value = task
   modalOpen.value = true
 }
 
-function openConfirm(id: number) {
+function openConfirm(id: string) {
   deletingId.value = id
   confirmOpen.value = true
 }
@@ -228,14 +228,12 @@ const icons = {
   gap: 24px;
 }
 
-/* Stats */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-/* Table */
 .task-table-card {
   overflow: hidden;
 }
@@ -262,7 +260,6 @@ const icons = {
   flex-wrap: wrap;
 }
 
-/* Filter dropdown */
 .filter-dropdown {
   position: relative;
 }
@@ -293,7 +290,6 @@ const icons = {
   color: var(--color-primary);
 }
 
-/* Loading / empty */
 .table-loading,
 .table-empty {
   display: flex;
@@ -310,7 +306,6 @@ const icons = {
   position: relative;
 }
 
-/* Responsive */
 @media (max-width: 1100px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }

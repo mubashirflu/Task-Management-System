@@ -144,7 +144,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
-// Firebase imports
 import {
   collection,
   getDocs,
@@ -215,10 +214,10 @@ export const useTaskStore = defineStore('tasks', () => {
     try {
       const snap = await getDocs(collection(db, "tasks"))
 
-      tasks.value = snap.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Task[]
+      tasks.value = snap.docs.map(d => ({
+        id: d.id,
+        ...(d.data() as Omit<Task, 'id'>)
+      }))
 
     } catch (e) {
       error.value = 'Failed to fetch tasks.'
@@ -233,16 +232,22 @@ export const useTaskStore = defineStore('tasks', () => {
     error.value = null
 
     try {
+      const now = new Date().toISOString()
+
       const docRef = await addDoc(collection(db, "tasks"), {
         ...payload,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        createdAt: now,
+        updatedAt: now
       })
 
-      tasks.value.push({
+      const newTask: Task = {
         id: docRef.id,
-        ...payload
-      } as Task)
+        ...payload,
+        createdAt: now,
+        updatedAt: now
+      }
+
+      tasks.value.unshift(newTask)
 
     } catch (e) {
       error.value = 'Failed to create task.'
@@ -257,11 +262,13 @@ export const useTaskStore = defineStore('tasks', () => {
     error.value = null
 
     try {
+      const now = new Date().toISOString()
+
       const taskRef = doc(db, "tasks", id)
 
       await updateDoc(taskRef, {
         ...payload,
-        updatedAt: new Date().toISOString()
+        updatedAt: now
       })
 
       const idx = tasks.value.findIndex(t => t.id === id)
@@ -269,7 +276,8 @@ export const useTaskStore = defineStore('tasks', () => {
       if (idx !== -1) {
         tasks.value[idx] = {
           ...tasks.value[idx],
-          ...payload
+          ...payload,
+          updatedAt: now
         }
       }
 
@@ -287,7 +295,6 @@ export const useTaskStore = defineStore('tasks', () => {
 
     try {
       await deleteDoc(doc(db, "tasks", id))
-
       tasks.value = tasks.value.filter(t => t.id !== id)
 
     } catch (e) {

@@ -57,3 +57,55 @@ export interface PaginationMeta {
   total: number
   totalPages: number
 }
+
+// export type TaskStatus = 'completed' | 'in-progress' | 'pending'
+// export type TaskCategory = 'development' | 'career' | 'learning' | 'devops'
+
+// export interface Task {
+//   id: string
+//   title: string
+//   description: string
+//   status: TaskStatus
+//   category: TaskCategory
+//   assignee: string
+//   country: string
+//   age?: number
+//   createdAt: string
+//   updatedAt: string
+// }
+
+// export type TaskCreatePayload = Omit<
+//   Task,
+//   'id' | 'createdAt' | 'updatedAt'
+// >
+
+// export interface User {
+//   id: string
+//   name: string
+//   email: string
+//   avatar: string
+//   country: string
+//   age: number
+//   role: string
+// }
+
+// export interface Category {
+//   id: string
+//   name: string
+//   slug: string
+//   color: string
+// }
+
+// export interface TaskStats {
+//   total: number
+//   completed: number
+//   inProgress: number
+//   pending: number
+// }
+
+// export interface PaginationMeta {
+//   currentPage: number
+//   perPage: number
+//   total: number
+//   totalPages: number
+// }

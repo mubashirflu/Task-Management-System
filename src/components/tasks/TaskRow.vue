@@ -64,9 +64,13 @@ import { computed } from 'vue'
 import type { Task } from '@/types'
 
 const props = defineProps<{ task: Task }>()
+// defineEmits<{
+//   (e: 'edit', task: Task): void
+//   (e: 'delete', id: number): void
+// }>()
 defineEmits<{
   (e: 'edit', task: Task): void
-  (e: 'delete', id: number): void
+  (e: 'delete', id: string): void
 }>()
 
 const statusClass = computed(() => props.task.status)
