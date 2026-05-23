@@ -58,4 +58,5 @@ if (import.meta.env.DEV) {
 }
 
 const app = initializeApp(firebaseConfig)
+console.log('Firebase Config:', JSON.stringify(firebaseConfig))
 export const db = getFirestore(app)
