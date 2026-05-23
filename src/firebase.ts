@@ -56,8 +56,6 @@
 //   console.log('✅ Firebase: All env variables loaded!')
 // }
 
-// const app = initializeApp(firebaseConfig)
-// export const db = getFirestore(app)
 import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
 
@@ -70,6 +68,5 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID
 }
 
-// ✅ Console log hata diya — production mein nahi chahiye
 const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
