@@ -30,6 +30,34 @@
 
 // // Firestore DB
 // export const db = getFirestore(app)
+// import { initializeApp } from "firebase/app"
+// import { getFirestore } from "firebase/firestore"
+
+// const firebaseConfig = {
+//   apiKey: import.meta.env.VITE_API_KEY,
+//   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+//   projectId: import.meta.env.VITE_PROJECT_ID,
+//   storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+//   messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+//   appId: import.meta.env.VITE_APP_ID
+// }
+
+// // ✅ HAMESHA print karo — DEV aur PRODUCTION dono mein
+// console.log('🔥 Firebase Config:', JSON.stringify(firebaseConfig, null, 2))
+
+// // ✅ HAMESHA check karo — DEV aur PRODUCTION dono mein
+// const missing = Object.entries(firebaseConfig)
+//   .filter(([, v]) => !v)
+//   .map(([k]) => k)
+
+// if (missing.length > 0) {
+//   console.error('❌ Firebase: Missing env variables:', missing)
+// } else {
+//   console.log('✅ Firebase: All env variables loaded!')
+// }
+
+// const app = initializeApp(firebaseConfig)
+// export const db = getFirestore(app)
 import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
 
@@ -42,19 +70,6 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID
 }
 
-// ✅ HAMESHA print karo — DEV aur PRODUCTION dono mein
-console.log('🔥 Firebase Config:', JSON.stringify(firebaseConfig, null, 2))
-
-// ✅ HAMESHA check karo — DEV aur PRODUCTION dono mein
-const missing = Object.entries(firebaseConfig)
-  .filter(([, v]) => !v)
-  .map(([k]) => k)
-
-if (missing.length > 0) {
-  console.error('❌ Firebase: Missing env variables:', missing)
-} else {
-  console.log('✅ Firebase: All env variables loaded!')
-}
-
+// ✅ Console log hata diya — production mein nahi chahiye
 const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)

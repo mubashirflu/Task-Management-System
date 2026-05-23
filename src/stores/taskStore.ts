@@ -205,7 +205,6 @@
 // })
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-
 import {
   collection,
   getDocs,
@@ -213,26 +212,23 @@ import {
   updateDoc,
   deleteDoc,
   doc,
-  orderBy,
-  query
+  query,
+  orderBy
 } from "firebase/firestore"
-
 import { db } from "@/firebase"
 import type { Task, TaskCreatePayload, TaskStats } from '@/types'
 
 export const useTaskStore = defineStore('tasks', () => {
 
   const tasks = ref<Task[]>([])
-  const loading = ref(false)        // sirf fetchTasks ke liye
-  const saving = ref(false)         // create/update/delete ke liye alag flag
+  const loading = ref(false)
   const error = ref<string | null>(null)
-
   const searchQuery = ref('')
   const statusFilter = ref<string>('all')
   const currentPage = ref(1)
   const perPage = ref(5)
 
-  // ───────────────────────── COMPUTED
+  // ── COMPUTED ─────────────────────────────────────────────────────────
 
   const stats = computed<TaskStats>(() => ({
     total: tasks.value.length,
@@ -243,7 +239,6 @@ export const useTaskStore = defineStore('tasks', () => {
 
   const filteredTasks = computed(() => {
     let list = tasks.value
-
     if (searchQuery.value.trim()) {
       const q = searchQuery.value.toLowerCase()
       list = list.filter(t =>
@@ -252,11 +247,9 @@ export const useTaskStore = defineStore('tasks', () => {
         t.assignee.toLowerCase().includes(q)
       )
     }
-
     if (statusFilter.value !== 'all') {
       list = list.filter(t => t.status === statusFilter.value)
     }
-
     return list
   })
 
@@ -269,21 +262,18 @@ export const useTaskStore = defineStore('tasks', () => {
     Math.ceil(filteredTasks.value.length / perPage.value)
   )
 
-  // ───────────────────────── FETCH
+  // ── FETCH — har reload par Firebase se data aata hai ─────────────────
 
   async function fetchTasks() {
     loading.value = true
     error.value = null
-
     try {
       const q = query(collection(db, "tasks"), orderBy("createdAt", "desc"))
       const snap = await getDocs(q)
-
       tasks.value = snap.docs.map(d => ({
         id: d.id,
         ...(d.data() as Omit<Task, 'id'>)
       }))
-
     } catch (e) {
       error.value = 'Failed to fetch tasks.'
       console.error('fetchTasks error:', e)
@@ -292,134 +282,82 @@ export const useTaskStore = defineStore('tasks', () => {
     }
   }
 
-  // ───────────────────────── CREATE — OPTIMISTIC
+  // ── CREATE — optimistic update ────────────────────────────────────────
 
   async function createTask(payload: TaskCreatePayload) {
     const now = new Date().toISOString()
-
-    // ✅ Step 1: Turant UI mein add karo (temp id ke saath)
     const tempId = `temp_${Date.now()}`
-    const optimisticTask: Task = {
-      id: tempId,
-      ...payload,
-      createdAt: now,
-      updatedAt: now
-    }
+
+    // 1. Turant UI mein dikhao
+    const optimisticTask: Task = { id: tempId, ...payload, createdAt: now, updatedAt: now }
     tasks.value.unshift(optimisticTask)
 
-    // ✅ Step 2: Background mein Firebase save karo
     try {
+      // 2. Firebase mein save karo
       const docRef = await addDoc(collection(db, "tasks"), {
-        ...payload,
-        createdAt: now,
-        updatedAt: now
+        ...payload, createdAt: now, updatedAt: now
       })
-
-      // Temp id ko real Firebase id se replace karo
+      // 3. Temp id replace karo real id se
       const idx = tasks.value.findIndex(t => t.id === tempId)
-      if (idx !== -1) {
-        tasks.value[idx] = { ...optimisticTask, id: docRef.id }
-      }
+      if (idx !== -1) tasks.value[idx] = { ...optimisticTask, id: docRef.id }
 
     } catch (e) {
-      // Firebase save fail — optimistic task hata do
+      // Firebase fail — UI se hata do
       tasks.value = tasks.value.filter(t => t.id !== tempId)
-      error.value = 'Failed to save task. Please try again.'
+      error.value = 'Task save nahi hua. Dobara try karo.'
       console.error('createTask error:', e)
       throw e
     }
   }
 
-  // ───────────────────────── UPDATE — OPTIMISTIC
+  // ── UPDATE — optimistic ───────────────────────────────────────────────
 
   async function updateTask(id: string, payload: Partial<TaskCreatePayload>) {
     const now = new Date().toISOString()
     const idx = tasks.value.findIndex(t => t.id === id)
-
-    // ✅ Step 1: Purani value backup karo
     const backup = idx !== -1 ? { ...tasks.value[idx] } : null
 
-    // ✅ Step 2: Turant UI update karo
-    if (idx !== -1) {
-      tasks.value[idx] = { ...tasks.value[idx], ...payload, updatedAt: now }
-    }
+    if (idx !== -1) tasks.value[idx] = { ...tasks.value[idx], ...payload, updatedAt: now }
 
-    // ✅ Step 3: Background mein Firebase update karo
     try {
-      const taskRef = doc(db, "tasks", id)
-      await updateDoc(taskRef, { ...payload, updatedAt: now })
-
+      await updateDoc(doc(db, "tasks", id), { ...payload, updatedAt: now })
     } catch (e) {
-      // Fail hone par restore karo
-      if (backup && idx !== -1) {
-        tasks.value[idx] = backup
-      }
-      error.value = 'Failed to update task. Please try again.'
+      if (backup && idx !== -1) tasks.value[idx] = backup
+      error.value = 'Task update nahi hua. Dobara try karo.'
       console.error('updateTask error:', e)
       throw e
     }
   }
 
-  // ───────────────────────── DELETE — OPTIMISTIC
+  // ── DELETE — optimistic ───────────────────────────────────────────────
 
   async function deleteTask(id: string) {
-    // ✅ Step 1: Backup
     const backup = [...tasks.value]
-
-    // ✅ Step 2: Turant UI se hata do
     tasks.value = tasks.value.filter(t => t.id !== id)
 
-    // ✅ Step 3: Background mein Firebase delete
     try {
       await deleteDoc(doc(db, "tasks", id))
-
     } catch (e) {
-      // Fail hone par restore karo
       tasks.value = backup
-      error.value = 'Failed to delete task. Please try again.'
+      error.value = 'Task delete nahi hua. Dobara try karo.'
       console.error('deleteTask error:', e)
       throw e
     }
   }
 
-  // ───────────────────────── UI HELPERS
+  // ── UI HELPERS ────────────────────────────────────────────────────────
 
-  function setSearch(q: string) {
-    searchQuery.value = q
-    currentPage.value = 1
-  }
+  function setSearch(q: string) { searchQuery.value = q; currentPage.value = 1 }
+  function setFilter(status: string) { statusFilter.value = status; currentPage.value = 1 }
+  function setPage(page: number) { currentPage.value = page }
 
-  function setFilter(status: string) {
-    statusFilter.value = status
-    currentPage.value = 1
-  }
-
-  function setPage(page: number) {
-    currentPage.value = page
-  }
+  // ✅ Error auto clear — 3 second baad
+  function clearError() { error.value = null }
 
   return {
-    tasks,
-    loading,
-    saving,
-    error,
-    searchQuery,
-    statusFilter,
-    currentPage,
-    perPage,
-
-    stats,
-    filteredTasks,
-    paginatedTasks,
-    totalPages,
-
-    fetchTasks,
-    createTask,
-    updateTask,
-    deleteTask,
-
-    setSearch,
-    setFilter,
-    setPage,
+    tasks, loading, error, searchQuery, statusFilter, currentPage, perPage,
+    stats, filteredTasks, paginatedTasks, totalPages,
+    fetchTasks, createTask, updateTask, deleteTask,
+    setSearch, setFilter, setPage, clearError
   }
 })
